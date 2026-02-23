@@ -19,22 +19,22 @@ public class CourseService {
 
     public Course update(String id, Course c){
 
-        Course old = repo.findById(id)
+        Course bookCourse = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
-        old.setTitle(c.getTitle());
-        old.setDescription(c.getDescription());
-        old.setPrice(c.getPrice());
+        bookCourse.setTitle(c.getTitle());
+        bookCourse.setDescription(c.getDescription());
+        bookCourse.setPrice(c.getPrice());
 
 
         // NEW FIELDS
-        old.setWhatYouWillLearn(c.getWhatYouWillLearn());
-        old.setDuration(c.getDuration());
-        old.setLevel(c.getLevel());
-        old.setImageUrl(c.getImageUrl());
+        bookCourse.setWhatYouWillLearn(c.getWhatYouWillLearn());
+        bookCourse.setDuration(c.getDuration());
+        bookCourse.setLevel(c.getLevel());
+        bookCourse.setImageUrl(c.getImageUrl());
+        return repo.save(bookCourse);
 
 
-        return repo.save(old);
     }
 
     public void delete(String id){ repo.deleteById(id); }

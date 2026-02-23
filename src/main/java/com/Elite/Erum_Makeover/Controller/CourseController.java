@@ -22,19 +22,19 @@ public class CourseController {
 
     // ADMIN CRUD
     @PostMapping("/admin")
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public Course add(@RequestBody Course c){
         return service.add(c);
     }
 
     @PutMapping("/admin/{id}")
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public Course update(@PathVariable String id,@RequestBody Course c){
         return service.update(id,c);
     }
 
     @DeleteMapping("/admin/{id}")
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(@PathVariable String id){
         service.delete(id);
         return "Course deleted successfully";
