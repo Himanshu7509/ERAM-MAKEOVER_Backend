@@ -3,14 +3,16 @@ package com.Elite.Erum_Makeover.DTO;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-    @Data
+import java.time.LocalDateTime;
+
+@Data
     public class ProfileRequest
     {
 
         private String fullName;
         private String email;
         private String phoneNumber;
-        private String dateOfBirth;
+        private LocalDateTime dateOfBirth;
         private String gender;
 
         private String city;

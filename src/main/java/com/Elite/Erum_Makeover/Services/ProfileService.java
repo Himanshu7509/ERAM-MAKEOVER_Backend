@@ -22,34 +22,35 @@ public class ProfileService {
 
         String imageUrl = null;
 
-        if (request.getProfilePhoto() != null &&
-                !request.getProfilePhoto().isEmpty()) {
-
-            imageUrl = s3Service.uploadFile(
-                    request.getProfilePhoto(),
-                    "profileImages"
-            );
+        if (request.getProfilePhoto() != null && !request.getProfilePhoto().isEmpty()) {
+            imageUrl = s3Service.uploadFile(request.getProfilePhoto(), "profiles");
         }
 
-        Profile profile = Profile.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
-                .dateOfBirth(LocalDate.parse(request.getDateOfBirth()))
-                .gender(request.getGender())
-                .city(request.getCity())
-                .state(request.getState())
-                .pinCode(request.getPinCode())
-                .courseName(request.getCourseName())
-                .batchTiming(request.getBatchTiming())
-                .priorExperience(request.getPriorExperience())
-                .experienceDescription(request.getExperienceDescription())
-                .skillLevel(request.getSkillLevel())
-                .whyJoin(request.getWhyJoin())
-                .careerGoal(request.getCareerGoal())
-                .message(request.getMessage())
-                .profilePhoto(imageUrl)   // ✅ save S3 URL
-                .build();
+        Profile profile = new Profile();
+        profile.setFullName(request.getFullName());
+        profile.setEmail(request.getEmail());
+        profile.setPhoneNumber(request.getPhoneNumber());
+
+        profile.setDateOfBirth(request.getDateOfBirth().toLocalDate());
+        profile.setGender(request.getGender());
+
+        profile.setCity(request.getCity());
+        profile.setState(request.getState());
+        profile.setPinCode(request.getPinCode());
+
+        profile.setCourseName(request.getCourseName());
+        profile.setBatchTiming(request.getBatchTiming());
+
+        profile.setPriorExperience(request.getPriorExperience());
+        profile.setExperienceDescription(request.getExperienceDescription());
+        profile.setSkillLevel(request.getSkillLevel());
+
+        profile.setWhyJoin(request.getWhyJoin());
+        profile.setCareerGoal(request.getCareerGoal());
+        profile.setMessage(request.getMessage());
+
+        // ✅ Save S3 URL in DB
+        profile.setProfilePhoto(imageUrl);
 
         return profileRepository.save(profile);
     }
