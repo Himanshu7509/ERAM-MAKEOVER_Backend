@@ -73,7 +73,8 @@ public class SecurityConfig {
 
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:3000",  // React local
-                "http://localhost:5173",  // Vite local
+                "http://localhost:5173",
+                "http://localhost:5174", // Vite local
                 "https://makeover-academy-eram.vercel.app/" // production
         ));
 
