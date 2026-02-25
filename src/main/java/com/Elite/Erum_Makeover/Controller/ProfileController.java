@@ -13,8 +13,13 @@ public class ProfileController
 {
     private final ProfileService profileService;
 
-    @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity<?> createProfile(@ModelAttribute ProfileRequest request) {
-        return ResponseEntity.ok(profileService.createProfile(request));
+    @PostMapping
+    public ResponseEntity<?> createProfile(@RequestBody ProfileRequest request) {
+        try {
+            return ResponseEntity.ok(profileService.createProfile(request));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Error: " + e.getMessage());
+        }
     }
 }

@@ -30,5 +30,5 @@ import java.time.LocalDateTime;
         private String careerGoal;
         private String message;
 
-        private MultipartFile profilePhoto;
+        private String profilePhoto;
     }
