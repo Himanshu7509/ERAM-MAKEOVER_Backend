@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/courses").permitAll()
                         .requestMatchers("/courses/**").permitAll()
+                                .requestMatchers( "/contact").permitAll()
                                 .requestMatchers("/courses/admin/**").authenticated()
 
 //                         // ENROLL NEED LOGIN
@@ -62,8 +63,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
     // ✅ CORS CONFIGURATION
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -77,7 +76,7 @@ public class SecurityConfig {
         ));
 
         configuration.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+                "GET", "POST", "PUT", "DELETE"
         ));
 
         configuration.setAllowedHeaders(List.of("*"));
