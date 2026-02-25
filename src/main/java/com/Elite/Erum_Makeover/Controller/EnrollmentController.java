@@ -14,6 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/enrollments")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class EnrollmentController {
 
     private final EnrollmentService service;

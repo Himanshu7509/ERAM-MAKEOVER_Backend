@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/demo")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class DemoRegistrationController {
 
     private final DemoRegistrationService service;

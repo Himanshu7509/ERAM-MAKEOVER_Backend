@@ -16,21 +16,19 @@ import java.util.UUID;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
+    private final S3Service s3Service;   // 👈 inject here
 
-    private static final String UPLOAD_DIR = "uploads/";
+    public Profile createProfile(ProfileRequest request) {
 
-    public Profile createProfile(ProfileRequest request) throws IOException {
+        String imageUrl = null;
 
-        String fileName = null;
+        if (request.getProfilePhoto() != null &&
+                !request.getProfilePhoto().isEmpty()) {
 
-        if (request.getProfilePhoto() != null && !request.getProfilePhoto().isEmpty()) {
-
-            File folder = new File(UPLOAD_DIR);
-            if (!folder.exists()) folder.mkdirs();
-
-            fileName = UUID.randomUUID() + "_" + request.getProfilePhoto().getOriginalFilename();
-            File file = new File(UPLOAD_DIR + fileName);
-            request.getProfilePhoto().transferTo(file);
+            imageUrl = s3Service.uploadFile(
+                    request.getProfilePhoto(),
+                    "profileImages"
+            );
         }
 
         Profile profile = Profile.builder()
@@ -50,7 +48,7 @@ public class ProfileService {
                 .whyJoin(request.getWhyJoin())
                 .careerGoal(request.getCareerGoal())
                 .message(request.getMessage())
-                .profilePhoto(fileName)
+                .profilePhoto(imageUrl)   // ✅ save S3 URL
                 .build();
 
         return profileRepository.save(profile);

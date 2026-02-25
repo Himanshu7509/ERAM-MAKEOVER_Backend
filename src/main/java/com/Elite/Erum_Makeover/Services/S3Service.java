@@ -30,29 +30,33 @@ public class S3Service {
         this.imageRepository = imageRepository;
     }
 
-    public String uploadFile(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file, String folderName) {
 
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        try {
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-        // 👉 create key with folder
-        String key = "ErumMakeover/courseImages";
+            String key = "ErumMakeover/" + folderName + "/" + fileName;
 
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .contentType(file.getContentType())
-                .build();
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(key)
+                    .contentType(file.getContentType())
+                    .build();
 
-        s3Client.putObject(
-                putObjectRequest,
-                RequestBody.fromBytes(file.getBytes()));
+            s3Client.putObject(
+                    putObjectRequest,
+                    RequestBody.fromBytes(file.getBytes())
+            );
 
-        String imageUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key;
+            String imageUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key;
 
-        // 👉 save to MongoDB
-        Image image = new Image(fileName, imageUrl);
-        imageRepository.save(image);
+            Image image = new Image(fileName, imageUrl);
+            imageRepository.save(image);
 
-        return imageUrl;
+            return imageUrl;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to upload file to S3", e);
+        }
     }
-}
+    }

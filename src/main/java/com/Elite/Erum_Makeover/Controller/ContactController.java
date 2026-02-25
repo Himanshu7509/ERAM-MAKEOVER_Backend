@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/contact")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ContactController
 {
     private final ContactServices service;
