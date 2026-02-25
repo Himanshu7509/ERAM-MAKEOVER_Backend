@@ -15,12 +15,6 @@ public class ProfileController
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<?> createProfile(@ModelAttribute ProfileRequest request) {
-        try {
-            Profile saved = profileService.createProfile(request);
-            return ResponseEntity.ok(saved);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
+        return ResponseEntity.ok(profileService.createProfile(request));
     }
 }
