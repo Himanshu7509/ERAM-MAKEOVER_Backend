@@ -20,13 +20,15 @@ public class ImageController {
         this.s3Service = s3Service;
     }
 
-
     @PostMapping("/upload")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadImage(
+            @RequestParam("file") MultipartFile file) {
+
         try {
-            String imageUrl = s3Service.uploadFile(file);
+            String imageUrl = s3Service.uploadFile(file, "profileImages");
             return ResponseEntity.ok(imageUrl);
+
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                     .body("Upload failed: " + e.getMessage());
