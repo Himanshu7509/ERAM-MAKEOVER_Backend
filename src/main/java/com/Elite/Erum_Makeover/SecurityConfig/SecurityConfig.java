@@ -53,7 +53,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/contact/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/contact/**").hasRole("ADMIN")
                                 // DEMO
-                                .requestMatchers(HttpMethod.POST, "/demo/register").authenticated()
+                               // .requestMatchers(HttpMethod.POST, "/demo/register").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/demo/all").hasRole("ADMIN")
 
                                 // everything else protected
