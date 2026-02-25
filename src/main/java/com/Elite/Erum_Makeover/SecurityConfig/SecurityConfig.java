@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/courses").permitAll()
                         .requestMatchers("/courses/**").permitAll()
                                 .requestMatchers( "/contact").permitAll()
+                                .requestMatchers("/demo/**").authenticated()
                                 .requestMatchers("/courses/admin/**").authenticated()
 
 //                         // ENROLL NEED LOGIN
