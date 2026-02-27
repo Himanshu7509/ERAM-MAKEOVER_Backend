@@ -75,7 +75,7 @@ public class SecurityConfig {
                 "http://localhost:3000",  // React local
                 "http://localhost:5173",
                 "http://localhost:5174", // Vite local
-                "https://makeover-academy-eram.vercel.app/" // production
+                "https://makeover-academy-eram.vercel.app" // production
         ));
 
         configuration.setAllowedMethods(List.of(
