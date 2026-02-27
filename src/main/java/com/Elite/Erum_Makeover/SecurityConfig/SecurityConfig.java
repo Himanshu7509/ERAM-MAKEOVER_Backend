@@ -56,7 +56,7 @@ public class SecurityConfig {
                                 // DEMO
                                // .requestMatchers(HttpMethod.POST, "/demo/register").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/demo/all").hasRole("ADMIN")
-
+                                .requestMatchers("/api/images/upload").authenticated()
                                 // everything else protected
                         .anyRequest().authenticated()
                 )

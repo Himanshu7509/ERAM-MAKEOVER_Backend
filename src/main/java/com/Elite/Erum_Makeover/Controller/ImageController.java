@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/images")
+    @RequestMapping("/api/images")
 @CrossOrigin(origins = "*")
 public class ImageController {
 
@@ -24,7 +24,8 @@ public class ImageController {
     @PostMapping("/upload")
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<Image> uploadImage(
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file)
+    {
 
         Image image = s3Service.uploadFile(file, "ProfileImage");
         return ResponseEntity.ok(image);
