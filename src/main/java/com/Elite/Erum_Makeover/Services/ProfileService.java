@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,24 +44,20 @@ public class ProfileService {
         return profileRepository.save(profile);
     }
 
-    // ✅ Get Profile With Image
     public Map<String, Object> getProfile(String id) {
 
         Profile profile = profileRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
 
-        Image image = null;
+        String imageUrl = Optional.ofNullable(profile.getImageid())
+                .flatMap(imageRepository::findById)
+                .map(Image::getImageUrl)
+                .orElse(null);
 
-        if (profile.getImageid() != null) {
-            image = imageRepository
-                    .findById(profile.getImageid())
-                    .orElse(null);
-        }
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("profile", profile);
-        response.put("profileImage", image);
-
-        return response;
+        assert imageUrl != null;
+        return Map.of(
+                "profile", profile,
+                "imageUrl", imageUrl
+        );
     }
 }
