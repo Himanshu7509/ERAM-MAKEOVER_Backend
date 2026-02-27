@@ -7,6 +7,7 @@ import com.Elite.Erum_Makeover.Model.User;
 import com.Elite.Erum_Makeover.Repository.ProfileRepository;
 import com.Elite.Erum_Makeover.Repository.UserRepository;
 import com.Elite.Erum_Makeover.SecurityConfig.JwtUtil;
+import com.Elite.Erum_Makeover.Services.ProfileService;
 import com.Elite.Erum_Makeover.Services.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,26 +25,25 @@ public class ImageController {
     private final JwtUtil JwtUtil;
     private final ProfileRepository profileRepository;
     private final S3Service s3Service;
+    private final ProfileService profileService;
 
-    @PostMapping("/upload")
+    @PostMapping("/profile")
     public ResponseEntity<?> uploadProfileImage(
             @RequestHeader("Authorization") String authHeader,
             @RequestParam("file") MultipartFile file
     ) {
+
         String token = authHeader.substring(7);
         String userId = JwtUtil.extractUserId(token);
 
-// 🔥 Upload to S3
+// 🔥 Upload image (returns Image object)
         Image image = s3Service.uploadFile(file, "ProfileImage");
 
+// 🔥 Extract URL from Image object
         String imageUrl = image.getImageUrl();
 
-// 🔥 Find profile by userId
-        Profile profile = profileRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
-
-        profile.setImageUrl(imageUrl);
-        profileRepository.save(profile);
+// 🔥 Update profile
+        profileService.updateProfileImage(userId, imageUrl);
 
         return ResponseEntity.ok(imageUrl);
     }

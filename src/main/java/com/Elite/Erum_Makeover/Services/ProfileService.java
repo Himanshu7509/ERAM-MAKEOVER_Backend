@@ -14,63 +14,48 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
-
     private final ProfileRepository profileRepository;
-    private final ImageRepository imageRepository;
 
-    // ✅ Create Profile
-    public Profile createProfile(ProfileRequest request) {
+    // 🔥 Create or Update Profile
+    public Profile saveOrUpdateProfile(String userId, Profile request) {
 
-        Profile profile = Profile.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
-                .dateOfBirth(request.getDateOfBirth())
-                .gender(request.getGender())
-                .city(request.getCity())
-                .state(request.getState())
-                .pinCode(request.getPinCode())
-                .courseName(request.getCourseName())
-                .batchTiming(request.getBatchTiming())
-                .priorExperience(request.getPriorExperience())
-                .experienceDescription(request.getExperienceDescription())
-                .skillLevel(request.getSkillLevel())
-                .whyJoin(request.getWhyJoin())
-                .careerGoal(request.getCareerGoal())
-                .message(request.getMessage())
-                .imageId(request.getImageId())  // 🔥 save imageId
-                .build();
+        Profile profile = profileRepository.findByUserId(userId)
+                .orElse(new Profile());
+
+        profile.setUserId(userId);
+        profile.setFullName(request.getFullName());
+        profile.setEmail(request.getEmail());
+        profile.setPhoneNumber(request.getPhoneNumber());
+        profile.setDateOfBirth(request.getDateOfBirth());
+        profile.setGender(request.getGender());
+        profile.setCity(request.getCity());
+        profile.setState(request.getState());
+        profile.setPinCode(request.getPinCode());
+        profile.setCourseName(request.getCourseName());
+        profile.setBatchTiming(request.getBatchTiming());
+        profile.setPriorExperience(request.getPriorExperience());
+        profile.setExperienceDescription(request.getExperienceDescription());
+        profile.setSkillLevel(request.getSkillLevel());
+        profile.setWhyJoin(request.getWhyJoin());
+        profile.setCareerGoal(request.getCareerGoal());
+        profile.setMessage(request.getMessage());
 
         return profileRepository.save(profile);
     }
 
-    public Map<String, Object> getProfile(String id) {
+    // 🔥 Get Profile
+    public Profile getProfileByUserId(String userId) {
 
-        Profile profile = profileRepository.findById(id)
+        return profileRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+    }
+
+    // 🔥 Update Image URL (called from ImageController)
+    public void updateProfileImage(String userId, String imageUrl) {
+        Profile profile = profileRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
 
-        System.out.println("Profile ImageId: " + profile.getImageId());
-
-        String imageUrl = null;
-
-        if (profile.getImageId() != null) {
-
-            Image image = imageRepository
-                    .findById(profile.getImageId())
-                    .orElse(null);
-
-            System.out.println("Image object from DB: " + image);
-
-            if (image != null) {
-                System.out.println("Image URL in DB: " + image.getImageUrl());
-                imageUrl = image.getImageUrl();
-            }
-        }
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("profile", profile);
-        response.put("imageUrl", imageUrl);
-
-        return response;
+        profile.setImageUrl(imageUrl);
+        profileRepository.save(profile);
     }
 }

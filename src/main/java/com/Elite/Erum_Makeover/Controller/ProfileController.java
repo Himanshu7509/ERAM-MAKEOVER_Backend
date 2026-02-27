@@ -4,6 +4,7 @@ import com.Elite.Erum_Makeover.Model.Image;
 import com.Elite.Erum_Makeover.Model.Profile;
 import com.Elite.Erum_Makeover.Repository.ImageRepository;
 import com.Elite.Erum_Makeover.Repository.ProfileRepository;
+import com.Elite.Erum_Makeover.SecurityConfig.JwtUtil;
 import com.Elite.Erum_Makeover.Services.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,39 +19,36 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ProfileController {
-
     private final ProfileService profileService;
-    private final ProfileRepository profileRepository;
-    private final ImageRepository imageRepository;
-    // ✅ Create Profile (PURE JSON)
+    private  final JwtUtil JwtUtil;
+    // 🔥 Create or Update Profile
     @PostMapping
-    public ResponseEntity<?> createProfile(@RequestBody ProfileRequest request) {
-        return ResponseEntity.ok(profileService.createProfile(request));
+    public ResponseEntity<?> saveProfile(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody Profile request
+    ) {
+
+        String token = authHeader.substring(7);
+        String userId = JwtUtil.extractUserId(token);
+
+        Profile savedProfile =
+                profileService.saveOrUpdateProfile(userId, request);
+
+        return ResponseEntity.ok(savedProfile);
     }
 
-    @GetMapping("/{id}")
-    public Map<String, Object> getProfile(@PathVariable String id) {
+    // 🔥 Get Profile
+    @GetMapping
+    public ResponseEntity<?> getProfile(
+            @RequestHeader("Authorization") String authHeader
+    ) {
 
-        Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+        String token = authHeader.substring(7);
+        String userId = JwtUtil.extractUserId(token);
 
-        String imageUrl = null;
+        Profile profile =
+                profileService.getProfileByUserId(userId);
 
-        if (profile.getImageId() != null) {
-            Image image = imageRepository
-                    .findById(profile.getImageId())
-                    .orElse(null);
-
-            if (image != null) {
-                imageUrl = image.getImageUrl();
-            }
-        }
-        System.out.println("Image ID: " + profile.getImageId());
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("profile", profile);
-        response.put("imageUrl", imageUrl);
-
-        return response;
+        return ResponseEntity.ok(profile);
     }
-}
+    }
