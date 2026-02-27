@@ -1,6 +1,7 @@
 package com.Elite.Erum_Makeover.Controller;
 
 
+import com.Elite.Erum_Makeover.Model.Image;
 import com.Elite.Erum_Makeover.Services.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +22,11 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> uploadImage(
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public ResponseEntity<Image> uploadImage(
             @RequestParam("file") MultipartFile file) {
 
-        try {
-            String imageUrl = s3Service.uploadFile(file, "CourseImage");
-            return ResponseEntity.ok(imageUrl);
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body("Upload failed: " + e.getMessage());
-        }
+        Image image = s3Service.uploadFile(file, "ProfileImage");
+        return ResponseEntity.ok(image);
     }
 }
