@@ -3,6 +3,7 @@ package com.Elite.Erum_Makeover.DTO;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
         private String fullName;
         private String email;
         private String phoneNumber;
-        private LocalDateTime dateOfBirth;
+        private LocalDate dateOfBirth;
         private String gender;
 
         private String city;
@@ -30,5 +31,5 @@ import java.time.LocalDateTime;
         private String careerGoal;
         private String message;
 
-        private String profilePhoto;
+        private String profileImageId;
     }

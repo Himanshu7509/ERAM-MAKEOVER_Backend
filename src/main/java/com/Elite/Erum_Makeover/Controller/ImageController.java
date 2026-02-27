@@ -26,7 +26,7 @@ public class ImageController {
             @RequestParam("file") MultipartFile file) {
 
         try {
-            String imageUrl = s3Service.uploadFile(file, "profileImages");
+            String imageUrl = s3Service.uploadFile(file, "CourseImage");
             return ResponseEntity.ok(imageUrl);
 
         } catch (Exception e) {

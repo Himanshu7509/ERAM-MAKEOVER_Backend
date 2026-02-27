@@ -1,49 +1,49 @@
-package com.Elite.Erum_Makeover.Model;
+    package com.Elite.Erum_Makeover.Model;
 
 
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+    import lombok.*;
+    import org.springframework.data.annotation.Id;
+    import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+    import java.time.LocalDate;
 
-@Document(collection = "profiles")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Profile {
+    @Document(collection = "profiles")
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public class Profile {
+        @Id
+        private String profileId;
 
-    @Id
-    private String profileId;
+        // Personal Info
+        private String fullName;
+        private String email;
+        private String phoneNumber;
+        private LocalDate dateOfBirth;
+        private String gender;
 
-    // Personal Info
-    private String fullName;
-    private String email;
-    private String phoneNumber;
-    private LocalDate dateOfBirth;
-    private String gender;
+        // Address
+        private String city;
+        private String state;
+        private String pinCode;
 
-    // Address
-    private String city;
-    private String state;
-    private String pinCode;
+        // Course Info
+        private String courseName;
+        private String batchTiming;
 
-    // Course Info
-    private String courseName;
-    private String batchTiming;
+        // Experience
+        private String priorExperience;
+        private String experienceDescription;
+        private String skillLevel;
 
-    // Experience
-    private String priorExperience;
-    private String experienceDescription;
-    private String skillLevel;
+        // Motivation
+        private String whyJoin;
+        private String careerGoal;
+        private String message;
 
-    // Motivation
-    private String whyJoin;
-    private String careerGoal;
-    private String message;
+        // 🔥 Store Image ID (NOT URL)
+        private String profileImageId;
 
-    // Profile Photo Path
-    private String profilePhoto;
-}
+    }

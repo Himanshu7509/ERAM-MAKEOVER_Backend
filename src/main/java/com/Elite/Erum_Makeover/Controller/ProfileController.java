@@ -6,20 +6,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/api/profiles")
 @RequiredArgsConstructor
-public class ProfileController
-{
+@CrossOrigin(origins = "*")
+public class ProfileController {
+
     private final ProfileService profileService;
 
+    // ✅ Create Profile (PURE JSON)
     @PostMapping
     public ResponseEntity<?> createProfile(@RequestBody ProfileRequest request) {
-        try {
-            return ResponseEntity.ok(profileService.createProfile(request));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
+        return ResponseEntity.ok(profileService.createProfile(request));
+    }
+
+    // ✅ Get Profile With Image
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProfile(@PathVariable String id) {
+        return ResponseEntity.ok(profileService.getProfile(id));
     }
 }

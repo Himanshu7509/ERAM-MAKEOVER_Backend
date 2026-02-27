@@ -30,11 +30,10 @@ public class S3Service {
         this.imageRepository = imageRepository;
     }
 
-    public String uploadFile(MultipartFile file, String folderName) {
+    public Image uploadFile(MultipartFile file, String folderName) {
 
         try {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-
             String key = "ErumMakeover/" + folderName + "/" + fileName;
 
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -50,10 +49,11 @@ public class S3Service {
 
             String imageUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key;
 
-            Image image = new Image(fileName, imageUrl);
-            imageRepository.save(image);
+            Image image = new Image();
+            image.setFileName(fileName);
+            image.setImageUrl(imageUrl);
 
-            return imageUrl;
+            return imageRepository.save(image); // 🔥 return saved image (with id)
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to upload file to S3", e);
