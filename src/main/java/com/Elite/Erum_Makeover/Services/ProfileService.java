@@ -37,7 +37,7 @@ public class ProfileService {
                 .whyJoin(request.getWhyJoin())
                 .careerGoal(request.getCareerGoal())
                 .message(request.getMessage())
-                .ProfileImageId(request.getProfileImageId())  // 🔥 save imageId
+                .Imageid(request.getProfileImageId())  // 🔥 save imageId
                 .build();
 
         return profileRepository.save(profile);
@@ -51,9 +51,9 @@ public class ProfileService {
 
         Image image = null;
 
-        if (profile.getProfileImageId() != null) {
+        if (profile.getImageid() != null) {
             image = imageRepository
-                    .findById(profile.getProfileImageId())
+                    .findById(profile.getImageid())
                     .orElse(null);
         }
 
