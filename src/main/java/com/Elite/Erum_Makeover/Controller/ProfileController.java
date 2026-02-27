@@ -45,6 +45,7 @@ public class ProfileController {
                 imageUrl = image.getImageUrl();
             }
         }
+        System.out.println("Image ID: " + profile.getImageid());
 
         Map<String, Object> response = new HashMap<>();
         response.put("profile", profile);
