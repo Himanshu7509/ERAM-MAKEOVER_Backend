@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Image
 {
     @Id
-    private String id;
+    private String Imageid;
     private String fileName;
     private String imageUrl;
 
