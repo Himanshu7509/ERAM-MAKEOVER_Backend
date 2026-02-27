@@ -49,15 +49,28 @@ public class ProfileService {
         Profile profile = profileRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
 
-        String imageUrl = Optional.ofNullable(profile.getImageid())
-                .flatMap(imageRepository::findById)
-                .map(Image::getImageUrl)
-                .orElse(null);
+        System.out.println("Profile ImageId: " + profile.getImageid());
 
-        assert imageUrl != null;
-        return Map.of(
-                "profile", profile,
-                "imageUrl", imageUrl
-        );
+        String imageUrl = null;
+
+        if (profile.getImageid() != null) {
+
+            Image image = imageRepository
+                    .findById(profile.getImageid())
+                    .orElse(null);
+
+            System.out.println("Image object from DB: " + image);
+
+            if (image != null) {
+                System.out.println("Image URL in DB: " + image.getImageUrl());
+                imageUrl = image.getImageUrl();
+            }
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("profile", profile);
+        response.put("imageUrl", imageUrl);
+
+        return response;
     }
 }
