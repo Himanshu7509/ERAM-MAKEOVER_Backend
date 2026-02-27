@@ -16,5 +16,5 @@ public class Image
     private String imageId;
     private String fileName;
     private String imageUrl;
-    private String roleId;
+    private String userId;
 }

@@ -32,7 +32,6 @@ public class ImageController {
             @RequestHeader("Authorization") String authHeader,
             @RequestParam("file") MultipartFile file
     ) {
-
         String token = authHeader.substring(7);
         String userId = JwtUtil.extractUserId(token);
 
