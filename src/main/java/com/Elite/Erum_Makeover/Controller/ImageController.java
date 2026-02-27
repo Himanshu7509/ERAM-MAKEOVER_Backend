@@ -27,7 +27,7 @@ public class ImageController {
     private final S3Service s3Service;
     private final ProfileService profileService;
 
-    @PostMapping("/profile")
+    @PostMapping("/upload")
     public ResponseEntity<?> uploadProfileImage(
             @RequestHeader("Authorization") String authHeader,
             @RequestParam("file") MultipartFile file
