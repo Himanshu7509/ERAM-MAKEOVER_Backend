@@ -37,7 +37,7 @@ public class ProfileService {
                 .whyJoin(request.getWhyJoin())
                 .careerGoal(request.getCareerGoal())
                 .message(request.getMessage())
-                .Imageid(request.getProfileImageId())  // 🔥 save imageId
+                .Imageid(request.getImageid())  // 🔥 save imageId
                 .build();
 
         return profileRepository.save(profile);
