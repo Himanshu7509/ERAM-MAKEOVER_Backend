@@ -16,10 +16,5 @@ public class Image
     private String imageId;
     private String fileName;
     private String imageUrl;
-
-//    public Image(String fileName,String imageUrl)
-//    {
-//        this.fileName=fileName;
-//        this.imageUrl=imageUrl;
-//    }
+    private String roleId;
 }

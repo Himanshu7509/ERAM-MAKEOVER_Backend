@@ -14,36 +14,32 @@
     @AllArgsConstructor
     @Builder
     public class Profile {
+
         @Id
         private String profileId;
 
-        // Personal Info
+        private String userId;   // 🔥 IMPORTANT (store userId from token)
+
         private String fullName;
         private String email;
         private String phoneNumber;
         private LocalDate dateOfBirth;
         private String gender;
 
-        // Address
         private String city;
         private String state;
         private String pinCode;
 
-        // Course Info
         private String courseName;
         private String batchTiming;
 
-        // Experience
         private String priorExperience;
         private String experienceDescription;
         private String skillLevel;
 
-        // Motivation
         private String whyJoin;
         private String careerGoal;
         private String message;
 
-        // 🔥 Store Image ID (NOT URL)
-        private String imageId;
-
+        private String imageUrl;   // store S3 URL here
     }
