@@ -36,16 +36,16 @@ public class ProfileController {
 
         String imageUrl = null;
 
-        if (profile.getImageid() != null) {
+        if (profile.getImageId() != null) {
             Image image = imageRepository
-                    .findById(profile.getImageid())
+                    .findById(profile.getImageId())
                     .orElse(null);
 
             if (image != null) {
                 imageUrl = image.getImageUrl();
             }
         }
-        System.out.println("Image ID: " + profile.getImageid());
+        System.out.println("Image ID: " + profile.getImageId());
 
         Map<String, Object> response = new HashMap<>();
         response.put("profile", profile);

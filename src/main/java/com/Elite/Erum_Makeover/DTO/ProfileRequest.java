@@ -31,5 +31,5 @@ import java.time.LocalDateTime;
         private String careerGoal;
         private String message;
 
-        private String Imageid;
+        private String imageId;
     }

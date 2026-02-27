@@ -38,7 +38,7 @@ public class ProfileService {
                 .whyJoin(request.getWhyJoin())
                 .careerGoal(request.getCareerGoal())
                 .message(request.getMessage())
-                .Imageid(request.getImageid())  // 🔥 save imageId
+                .imageId(request.getImageId())  // 🔥 save imageId
                 .build();
 
         return profileRepository.save(profile);
@@ -49,14 +49,14 @@ public class ProfileService {
         Profile profile = profileRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
 
-        System.out.println("Profile ImageId: " + profile.getImageid());
+        System.out.println("Profile ImageId: " + profile.getImageId());
 
         String imageUrl = null;
 
-        if (profile.getImageid() != null) {
+        if (profile.getImageId() != null) {
 
             Image image = imageRepository
-                    .findById(profile.getImageid())
+                    .findById(profile.getImageId())
                     .orElse(null);
 
             System.out.println("Image object from DB: " + image);

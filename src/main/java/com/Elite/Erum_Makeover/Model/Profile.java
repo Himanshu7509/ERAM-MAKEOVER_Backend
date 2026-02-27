@@ -44,6 +44,6 @@
         private String message;
 
         // 🔥 Store Image ID (NOT URL)
-        private String Imageid;
+        private String imageId;
 
     }
