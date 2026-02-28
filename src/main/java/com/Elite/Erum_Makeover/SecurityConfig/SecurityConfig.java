@@ -29,39 +29,44 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
+//
+//        http
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .csrf(csrf -> csrf.disable())
+//                .sessionManagement(sess ->
+//                        sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(auth -> auth
+//
+//                        // ✅ PUBLIC APIs
+//                        .requestMatchers("/auth/**").permitAll()
+//                        .requestMatchers("/courses").permitAll()
+//                        .requestMatchers("/courses/**").permitAll()
+//                                .requestMatchers( "/contact").permitAll()
+//                                .requestMatchers("/demo/**").authenticated()
+//                                .requestMatchers("/courses/admin/**").authenticated()
+//                                .requestMatchers("/api/profiles/**").authenticated()
+//
+//                   .requestMatchers("/enrollments/**").authenticated()
+//                                // ✅ PUBLIC CONTACT SUBMIT ONLY
+//                                .requestMatchers(HttpMethod.POST, "/contact").permitAll()
+//
+//                                // ✅ ADMIN ONLY CONTACT VIEW + DELETE
+//                                .requestMatchers(HttpMethod.GET, "/contact/**").hasRole("ADMIN")
+//                                .requestMatchers(HttpMethod.DELETE, "/contact/**").hasRole("ADMIN")
+//                                // DEMO
+//                               // .requestMatchers(HttpMethod.POST, "/demo/register").authenticated()
+//                                .requestMatchers(HttpMethod.GET, "/demo/all").hasRole("ADMIN")
+//                                .requestMatchers("/api/images/**").authenticated()
+//                                // everything else protected
+//                        .anyRequest().authenticated()
+//                )
+//                .addFilterBefore(jwtFilter,
+//                        UsernamePasswordAuthenticationFilter.class);
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sess ->
-                        sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-
-                        // ✅ PUBLIC APIs
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/courses").permitAll()
-                        .requestMatchers("/courses/**").permitAll()
-                                .requestMatchers( "/contact").permitAll()
-                                .requestMatchers("/demo/**").authenticated()
-                                .requestMatchers("/courses/admin/**").authenticated()
-                                .requestMatchers("/api/profiles/**").authenticated()
-//                         // ENROLL NEED LOGIN
-                   .requestMatchers("/enrollments/**").authenticated()
-                                // ✅ PUBLIC CONTACT SUBMIT ONLY
-                                .requestMatchers(HttpMethod.POST, "/contact").permitAll()
-
-                                // ✅ ADMIN ONLY CONTACT VIEW + DELETE
-                                .requestMatchers(HttpMethod.GET, "/contact/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/contact/**").hasRole("ADMIN")
-                                // DEMO
-                               // .requestMatchers(HttpMethod.POST, "/demo/register").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/demo/all").hasRole("ADMIN")
-                                .requestMatchers("/api/images/**").authenticated()
-                                // everything else protected
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                        .anyRequest().permitAll()   // 🔥 allow everything
+                );
 
         return http.build();
     }
