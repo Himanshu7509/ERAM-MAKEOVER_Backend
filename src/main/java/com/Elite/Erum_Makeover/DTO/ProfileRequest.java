@@ -30,6 +30,4 @@ import java.time.LocalDateTime;
         private String whyJoin;
         private String careerGoal;
         private String message;
-
-        private String imageId;
     }

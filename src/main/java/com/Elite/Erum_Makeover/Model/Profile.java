@@ -41,5 +41,5 @@
         private String careerGoal;
         private String message;
 
-        private String imageUrl;   // store S3 URL here
+        private String ImageUrl;
     }
