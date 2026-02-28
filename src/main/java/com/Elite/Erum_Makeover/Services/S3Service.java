@@ -21,8 +21,7 @@ public class S3Service {
     @Autowired
     private ImageRepository imageRepository;
 
-
-    @Value("${aws.bucket-name}")
+    @Value("${aws.s3.bucket-name}")
     private String bucketName;
 
     public S3Service(S3Client s3Client, ImageRepository imageRepository) {
@@ -44,8 +43,7 @@ public class S3Service {
 
             s3Client.putObject(
                     putObjectRequest,
-                    RequestBody.fromBytes(file.getBytes())
-            );
+                    RequestBody.fromBytes(file.getBytes()));
 
             String imageUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key;
 
@@ -59,4 +57,4 @@ public class S3Service {
             throw new RuntimeException("Failed to upload file to S3", e);
         }
     }
-    }
+}
