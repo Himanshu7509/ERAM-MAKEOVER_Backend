@@ -21,14 +21,16 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class ProfileController {
     private final ProfileService profileService;
+    private final ProfileRepository profileRepository;
     private  final JwtUtil JwtUtil;
+
     // 🔥 Create or Update Profile
     @PostMapping
     public ResponseEntity<?> saveProfile(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody Profile request
-    ) {
-
+    )
+    {
         String token = authHeader.substring(7);
         String userId = JwtUtil.extractUserId(token);
         Profile savedProfile =
@@ -52,16 +54,15 @@ public class ProfileController {
         return ResponseEntity.ok(profile);
     }
 
-
-    // 🔥 Get All Profiles
+    // ✅ Get All Profiles
     @GetMapping("/admin")
     public ResponseEntity<List<Profile>> getAllProfiles() {
         return ResponseEntity.ok(profileService.getAllProfiles());
     }
 
-    // 🔥 Get Profile By Id
-    @GetMapping("admin/{id}")
-    public ResponseEntity<Profile> getProfileById(@PathVariable String id) {
-        return ResponseEntity.ok(profileService.getProfileById(id));
+    // ✅ Get One Profile by profileId
+    @GetMapping("/admin/{profileId}")
+    public ResponseEntity<Profile> getProfileById(@PathVariable String profileId) {
+        return ResponseEntity.ok(profileService.getProfileById(profileId));
     }
-    }
+}
