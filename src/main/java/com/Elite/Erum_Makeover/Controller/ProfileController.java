@@ -30,7 +30,6 @@ public class ProfileController {
 
         String token = authHeader.substring(7);
         String userId = JwtUtil.extractUserId(token);
-
         Profile savedProfile =
                 profileService.saveOrUpdateProfile(userId, request);
 
@@ -51,4 +50,13 @@ public class ProfileController {
 
         return ResponseEntity.ok(profile);
     }
+
+    // 🔥 Admin: Get Profile By UserId (No Authentication)
+@GetMapping("/admin/{userId}")
+public ResponseEntity<?> getProfileForAdmin(@PathVariable String userId) {
+
+    Profile profile = profileService.getProfileByUserIdforImg(userId);
+
+    return ResponseEntity.ok(profile);
+}
     }

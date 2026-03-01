@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProfileService {
     private final ProfileRepository profileRepository;
-
+    private final ImageRepository imageRepository;
     // 🔥 Create or Update Profile
     public Profile saveOrUpdateProfile(String userId, Profile request) {
 
@@ -58,4 +58,19 @@ public class ProfileService {
         profile.setImageUrl(imageUrl);
         profileRepository.save(profile);
     }
+
+    public Profile getProfileByUserIdforImg(String userId) {
+
+    Profile profile = profileRepository.findByUserId(userId)
+            .orElseThrow(() -> new RuntimeException("Profile not found"));
+
+    // Fetch image
+    Image image = imageRepository.findByProfileId(profile.getProfileId());
+
+    if (image != null) {
+        profile.setImageUrl(image.getImageUrl());
+    }
+
+    return profile;
+}
 }

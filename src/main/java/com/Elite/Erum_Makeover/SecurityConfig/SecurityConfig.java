@@ -1,6 +1,5 @@
 package com.Elite.Erum_Makeover.SecurityConfig;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 @Configuration
@@ -42,8 +40,8 @@ public class SecurityConfig {
                         .requestMatchers("/courses").permitAll()
                         .requestMatchers("/courses/**").permitAll()
                                 .requestMatchers( "/contact").permitAll()
-                                .requestMatchers("/demo/**").authenticated()
-                                .requestMatchers("/courses/admin/**").authenticated()
+                                 .requestMatchers("/demo/**").authenticated()
+                                 .requestMatchers("/courses/admin/**").authenticated()
 
 //                         // ENROLL NEED LOGIN
                    .requestMatchers("/enrollments/**").authenticated()
@@ -53,8 +51,9 @@ public class SecurityConfig {
                                 // ✅ ADMIN ONLY CONTACT VIEW + DELETE
                                 .requestMatchers(HttpMethod.GET, "/contact/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/contact/**").hasRole("ADMIN")
+
                                 // DEMO
-                               // .requestMatchers(HttpMethod.POST, "/demo/register").authenticated()
+                               // .requestMatchers(HttpMethod.POST,"/demo/register").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/demo/all").hasRole("ADMIN")
 
                                 // everything else protected
@@ -68,14 +67,15 @@ public class SecurityConfig {
     // ✅ CORS CONFIGURATION
     
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource()
+    {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000",  // React local
+                "http://localhost:3000",  // React-local
                 "http://localhost:5173",
-                "http://localhost:5174", // Vite local
+                "http://localhost:5174", // Vite-local
                 "https://makeover-academy-eram.vercel.app" // production
         ));
 
@@ -88,20 +88,21 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
-
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder()
+    {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+            AuthenticationConfiguration config) throws Exception
+    {
         return config.getAuthenticationManager();
     }
 }
