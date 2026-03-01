@@ -63,31 +63,29 @@ public class ProfileService {
 
     // 🔥 Get All Profiles
     public List<Profile> getAllProfiles() {
-
         List<Profile> profiles = profileRepository.findAll();
-
         // Attach image URL to each profile
         for (Profile profile : profiles) {
-            Image image = imageRepository.findByProfileId(profile.getProfileId());
+            Image image = imageRepository.findByUserId(profile.getUserId());
             if (image != null) {
                 profile.setImageUrl(image.getImageUrl());
             }
         }
-
         return profiles;
     }
 
     // 🔥 Get Profile By ProfileId
-    public Profile getProfileById(String profileId) {
+    public Profile getProfileById(String profileId)
+    {
 
         Profile profile = profileRepository.findById(profileId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
 
-        Image image = imageRepository.findByProfileId(profileId);
-        if (image != null) {
+        Image image = imageRepository.findByUserId(profile.getUserId());
+        if (image != null)
+        {
             profile.setImageUrl(image.getImageUrl());
         }
-
         return profile;
     }
 }

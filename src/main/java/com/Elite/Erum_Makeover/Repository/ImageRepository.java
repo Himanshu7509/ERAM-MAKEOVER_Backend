@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageRepository extends MongoRepository<Image, String>
 {
-
-    // 🔥 Find image by profileId
-    Image findByProfileId(String profileId);
+    Image findByUserId(String userId);
 }

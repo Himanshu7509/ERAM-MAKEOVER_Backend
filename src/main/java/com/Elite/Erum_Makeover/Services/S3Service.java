@@ -18,20 +18,23 @@ public class S3Service {
 
     @Autowired
     private S3Client s3Client;
+
     @Autowired
     private ImageRepository imageRepository;
 
     @Value("${aws.s3.bucket-name}")
     private String bucketName;
 
-    public S3Service(S3Client s3Client, ImageRepository imageRepository) {
+    public S3Service(S3Client s3Client, ImageRepository imageRepository)
+    {
         this.s3Client = s3Client;
         this.imageRepository = imageRepository;
     }
 
-    public Image uploadFile(MultipartFile file, String folderName) {
-
-        try {
+    public Image uploadFile(MultipartFile file, String folderName)
+    {
+        try
+        {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             String key = "ErumMakeover/" + folderName + "/" + fileName;
 
@@ -41,7 +44,7 @@ public class S3Service {
                     .contentType(file.getContentType())
                     .build();
 
-            s3Client.putObject(
+                    s3Client.putObject(
                     putObjectRequest,
                     RequestBody.fromBytes(file.getBytes()));
 
@@ -52,8 +55,9 @@ public class S3Service {
             image.setImageUrl(imageUrl);
 
             return imageRepository.save(image); // 🔥 return saved image (with id)
-
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException("Failed to upload file to S3", e);
         }
     }
