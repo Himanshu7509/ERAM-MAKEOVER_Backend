@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -51,12 +52,16 @@ public class ProfileController {
         return ResponseEntity.ok(profile);
     }
 
-    // 🔥 Admin: Get Profile By UserId (No Authentication)
-@GetMapping("/admin/{userId}")
-public ResponseEntity<?> getProfileForAdmin(@PathVariable String userId) {
 
-    Profile profile = profileService.getProfileByUserIdforImg(userId);
+    // 🔥 Get All Profiles
+    @GetMapping("/admin")
+    public ResponseEntity<List<Profile>> getAllProfiles() {
+        return ResponseEntity.ok(profileService.getAllProfiles());
+    }
 
-    return ResponseEntity.ok(profile);
-}
+    // 🔥 Get Profile By Id
+    @GetMapping("admin/{id}")
+    public ResponseEntity<Profile> getProfileById(@PathVariable String id) {
+        return ResponseEntity.ok(profileService.getProfileById(id));
+    }
     }

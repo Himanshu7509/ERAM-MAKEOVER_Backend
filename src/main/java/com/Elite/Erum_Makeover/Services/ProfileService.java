@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -59,18 +60,34 @@ public class ProfileService {
         profileRepository.save(profile);
     }
 
-    public Profile getProfileByUserIdforImg(String userId) {
 
-    Profile profile = profileRepository.findByUserId(userId)
-            .orElseThrow(() -> new RuntimeException("Profile not found"));
+    // 🔥 Get All Profiles
+    public List<Profile> getAllProfiles() {
 
-    // Fetch image
-    Image image = imageRepository.findByProfileId(profile.getProfileId());
+        List<Profile> profiles = profileRepository.findAll();
 
-    if (image != null) {
-        profile.setImageUrl(image.getImageUrl());
+        // Attach image URL to each profile
+        for (Profile profile : profiles) {
+            Image image = imageRepository.findByProfileId(profile.getProfileId());
+            if (image != null) {
+                profile.setImageUrl(image.getImageUrl());
+            }
+        }
+
+        return profiles;
     }
 
-    return profile;
-}
+    // 🔥 Get Profile By ProfileId
+    public Profile getProfileById(String profileId) {
+
+        Profile profile = profileRepository.findById(profileId)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+
+        Image image = imageRepository.findByProfileId(profileId);
+        if (image != null) {
+            profile.setImageUrl(image.getImageUrl());
+        }
+
+        return profile;
+    }
 }
