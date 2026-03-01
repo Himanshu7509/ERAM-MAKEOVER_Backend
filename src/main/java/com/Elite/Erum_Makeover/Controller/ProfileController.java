@@ -1,8 +1,5 @@
 package com.Elite.Erum_Makeover.Controller;
-import com.Elite.Erum_Makeover.DTO.ProfileRequest;
-import com.Elite.Erum_Makeover.Model.Image;
 import com.Elite.Erum_Makeover.Model.Profile;
-import com.Elite.Erum_Makeover.Repository.ImageRepository;
 import com.Elite.Erum_Makeover.Repository.ProfileRepository;
 import com.Elite.Erum_Makeover.SecurityConfig.JwtUtil;
 import com.Elite.Erum_Makeover.Services.ProfileService;
@@ -10,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 @RestController
 @RequestMapping("/api/profiles")
@@ -35,7 +29,6 @@ public class ProfileController {
         String userId = JwtUtil.extractUserId(token);
         Profile savedProfile =
                 profileService.saveOrUpdateProfile(userId, request);
-
         return ResponseEntity.ok(savedProfile);
     }
 
@@ -43,26 +36,26 @@ public class ProfileController {
     @GetMapping
     public ResponseEntity<?> getProfile(
             @RequestHeader("Authorization") String authHeader
-    ) {
-
+    )
+    {
         String token = authHeader.substring(7);
         String userId = JwtUtil.extractUserId(token);
-
         Profile profile =
-                profileService.getProfileByUserId(userId);
-
+        profileService.getProfileByUserId(userId);
         return ResponseEntity.ok(profile);
     }
 
     // ✅ Get All Profiles
     @GetMapping("/admin")
-    public ResponseEntity<List<Profile>> getAllProfiles() {
+    public ResponseEntity<List<Profile>> getAllProfiles()
+    {
         return ResponseEntity.ok(profileService.getAllProfiles());
     }
 
     // ✅ Get One Profile by profileId
     @GetMapping("/admin/{profileId}")
-    public ResponseEntity<Profile> getProfileById(@PathVariable String profileId) {
+    public ResponseEntity<Profile> getProfileById(@PathVariable String profileId)
+    {
         return ResponseEntity.ok(profileService.getProfileById(profileId));
     }
 }

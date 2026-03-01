@@ -61,7 +61,8 @@ public class ProfileService {
     }
 
     // ✅ Get All Profiles
-    public List<Profile> getAllProfiles() {
+    public List<Profile> getAllProfiles() 
+    {
         return profileRepository.findAll();
     }
 
