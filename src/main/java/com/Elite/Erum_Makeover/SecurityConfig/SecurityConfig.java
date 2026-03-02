@@ -42,7 +42,8 @@ public class SecurityConfig {
                                 .requestMatchers( "/contact").permitAll()
                                  .requestMatchers("/demo/**").authenticated()
                                  .requestMatchers("/courses/admin/**").authenticated()
-                                .requestMatchers("/api/profiles**").authenticated()
+                                .requestMatchers("/api/profiles/**").authenticated()
+
 //                         // ENROLL NEED LOGIN
                    .requestMatchers("/enrollments/**").authenticated()
                                 // ✅ PUBLIC CONTACT SUBMIT ONLY
