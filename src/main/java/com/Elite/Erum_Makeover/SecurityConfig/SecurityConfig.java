@@ -43,7 +43,7 @@ public class SecurityConfig {
                                  .requestMatchers("/demo/**").authenticated()
                                  .requestMatchers("/courses/admin/**").authenticated()
                                 .requestMatchers("/api/profiles/**").authenticated()
-
+                                .requestMatchers("/api/images/**").authenticated()
 //                         // ENROLL NEED LOGIN
                    .requestMatchers("/enrollments/**").authenticated()
                                 // ✅ PUBLIC CONTACT SUBMIT ONLY
