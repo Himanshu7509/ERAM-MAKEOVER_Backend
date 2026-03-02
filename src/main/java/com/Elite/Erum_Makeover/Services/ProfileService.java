@@ -18,10 +18,11 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final ImageRepository imageRepository;
     // 🔥 Create or Update Profile
-    public Profile saveOrUpdateProfile(String userId, Profile request) {
+    public Profile saveOrUpdateProfile(String userId, Profile request) 
+    {
 
         Profile profile = profileRepository.findByUserId(userId)
-                .orElse(new Profile());
+            .orElse(new Profile());
 
         profile.setUserId(userId);
         profile.setFullName(request.getFullName());
@@ -32,7 +33,6 @@ public class ProfileService {
         profile.setCity(request.getCity());
         profile.setState(request.getState());
         profile.setPinCode(request.getPinCode());
-        profile.setCourseName(request.getCourseName());
         profile.setBatchTiming(request.getBatchTiming());
         profile.setPriorExperience(request.getPriorExperience());
         profile.setExperienceDescription(request.getExperienceDescription());
@@ -40,19 +40,20 @@ public class ProfileService {
         profile.setWhyJoin(request.getWhyJoin());
         profile.setCareerGoal(request.getCareerGoal());
         profile.setMessage(request.getMessage());
-
         return profileRepository.save(profile);
     }
 
     // 🔥 Get Profile
-    public Profile getProfileByUserId(String userId) {
+    public Profile getProfileByUserId(String userId) 
+    {
 
         return profileRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
 
     // 🔥 Update Image URL (called from ImageController)
-    public void updateProfileImage(String userId, String imageUrl) {
+    public void updateProfileImage(String userId, String imageUrl) 
+    {
         Profile profile = profileRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
 
@@ -67,7 +68,8 @@ public class ProfileService {
     }
 
     // ✅ Get Profile By profileId
-    public Profile getProfileById(String profileId) {
+    public Profile getProfileById(String profileId) 
+    {
         return profileRepository.findById(profileId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }

@@ -30,7 +30,6 @@
         private String state;
         private String pinCode;
 
-        private String courseName;
         private String batchTiming;
 
         private String priorExperience;
