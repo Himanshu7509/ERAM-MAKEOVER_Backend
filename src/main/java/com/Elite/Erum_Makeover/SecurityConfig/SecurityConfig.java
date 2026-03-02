@@ -48,7 +48,8 @@ public class SecurityConfig {
                    .requestMatchers("/enrollments/**").authenticated()
                                 // ✅ PUBLIC CONTACT SUBMIT ONLY
                                 .requestMatchers(HttpMethod.POST, "/contact").permitAll()
-
+                                // ✅ PUBLIC CONTACT SUBMIT ONLY
+                                .requestMatchers(HttpMethod.POST, "/upload-image/**").permitAll()
                                 // ✅ ADMIN ONLY CONTACT VIEW + DELETE
                                 .requestMatchers(HttpMethod.GET, "/contact/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/contact/**").hasRole("ADMIN")

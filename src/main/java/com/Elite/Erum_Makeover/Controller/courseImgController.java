@@ -6,6 +6,7 @@ import com.Elite.Erum_Makeover.Repository.CourseRepository;
 import com.Elite.Erum_Makeover.Services.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,9 @@ public class courseImgController
 {
     private final CourseRepository courseRepository;
     private S3Service s3Service;
-    @PostMapping("/{courseId}/upload-image")
+
+    @PostMapping("upload-image/{courseId}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> uploadCourseImage(
             @PathVariable String courseId,
             @RequestParam("file") MultipartFile file
