@@ -3,6 +3,7 @@ package com.Elite.Erum_Makeover.Controller;
 import com.Elite.Erum_Makeover.Model.Course;
 import com.Elite.Erum_Makeover.Services.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,14 @@ public class CourseController {
         return service.getAll();
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Course> getById(@PathVariable String id) {
+
+        Course course = service.getById(id);
+
+        return ResponseEntity.ok(course);
+    }
     // ADMIN CRUD
     @PostMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")

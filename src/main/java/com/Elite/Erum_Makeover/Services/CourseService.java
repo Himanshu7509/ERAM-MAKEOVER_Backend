@@ -33,9 +33,11 @@ public class CourseService {
         bookCourse.setLevel(c.getLevel());
         bookCourse.setImageUrl(c.getImageUrl());
         return repo.save(bookCourse);
-
-
     }
 
+    public Course getById(String id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
+    }
     public void delete(String id){ repo.deleteById(id); }
 }
