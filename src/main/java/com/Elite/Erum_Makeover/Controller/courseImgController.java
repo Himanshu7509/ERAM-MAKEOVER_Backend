@@ -19,7 +19,7 @@ public class courseImgController
 
 {
     private final CourseRepository courseRepository;
-    private S3Service s3Service;
+    private final S3Service s3Service;
 
     @PostMapping("upload-image/{courseId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
