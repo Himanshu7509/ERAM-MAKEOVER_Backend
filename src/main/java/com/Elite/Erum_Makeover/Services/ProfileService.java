@@ -33,7 +33,6 @@ public class ProfileService {
         profile.setCity(request.getCity());
         profile.setState(request.getState());
         profile.setPinCode(request.getPinCode());
-        profile.setCourseName(request.getCourseName());
         profile.setBatchTiming(request.getBatchTiming());
         profile.setPriorExperience(request.getPriorExperience());
         profile.setExperienceDescription(request.getExperienceDescription());
