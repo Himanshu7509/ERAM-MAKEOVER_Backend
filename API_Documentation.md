@@ -171,6 +171,30 @@ Authenticate a user and receive a JWT token.
 | phone        | string   | Phone number for contact            |
 | registeredAt | datetime | Timestamp when registered           |
 
+### Profile
+
+| Field                 | Type   | Description                         |
+|-----------------------|--------|-------------------------------------|
+| profileId             | string | Unique identifier (MongoDB ID)      |
+| userId                | string | ID of the logged-in user            |
+| fullName              | string | Full name                           |
+| email                 | string | Email address                       |
+| phoneNumber           | string | Phone number                        |
+| dateOfBirth           | date   | Date of birth                       |
+| gender                | string | Gender                              |
+| city                  | string | City                                |
+| state                 | string | State                               |
+| pinCode               | string | PIN code                            |
+| courseName            | string | Selected course name                |
+| batchTiming           | string | Preferred batch timing              |
+| priorExperience       | string | Prior experience (Yes/No)           |
+| experienceDescription | string | Description of experience           |
+| skillLevel            | string | Current skill level                 |
+| whyJoin               | string | Reason for joining                  |
+| careerGoal            | string | Career goal                         |
+| message               | string | Additional message                  |
+| ImageUrl              | string | Profile image URL                   |
+
 ---
 
 ## Error Handling
@@ -298,3 +322,168 @@ Register for a demo session. User must be logged in.
 |-------------|----------------------------------------------|
 | 401         | Unauthorized - Invalid or missing token      |
 | 403         | Forbidden - User role required               |
+
+---
+
+## Course Endpoints (User)
+
+### 1. Get All Courses
+
+Retrieve all available courses. This endpoint is public.
+
+**Endpoint:** `GET /courses`
+
+**Authentication:** Not required
+
+**Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body:**
+```json
+[
+  {
+    "courseId": "string",
+    "title": "string",
+    "description": "string",
+    "price": 0.0,
+    "duration": "string",
+    "level": "string",
+    "imageUrl": "string",
+    "whatYouWillLearn": ["string"]
+  }
+]
+```
+
+---
+
+## Profile Endpoints (User)
+
+### 1. Create or Update Profile
+
+Create a new profile or update existing profile for the logged-in user.
+
+**Endpoint:** `POST /api/profiles`
+
+**Authentication:** Required (JWT Token)
+
+**Request Body:**
+```json
+{
+  "fullName": "string",
+  "email": "string",
+  "phoneNumber": "string",
+  "dateOfBirth": "1990-01-01",
+  "gender": "string",
+  "city": "string",
+  "state": "string",
+  "pinCode": "string",
+  "courseName": "string",
+  "batchTiming": "string",
+  "priorExperience": "string",
+  "experienceDescription": "string",
+  "skillLevel": "string",
+  "whyJoin": "string",
+  "careerGoal": "string",
+  "message": "string",
+  "ImageUrl": "string"
+}
+```
+
+**Request Parameters:**
+
+| Field                 | Type   | Required | Description                    |
+|-----------------------|--------|----------|--------------------------------|
+| fullName              | string | No       | Full name                      |
+| email                 | string | No       | Email address                  |
+| phoneNumber           | string | No       | Phone number                   |
+| dateOfBirth           | date   | No       | Date of birth (YYYY-MM-DD)     |
+| gender                | string | No       | Gender                         |
+| city                  | string | No       | City                           |
+| state                 | string | No       | State                          |
+| pinCode               | string | No       | PIN code                       |
+| courseName            | string | No       | Selected course name           |
+| batchTiming           | string | No       | Preferred batch timing         |
+| priorExperience       | string | No       | Prior experience (Yes/No)      |
+| experienceDescription | string | No       | Description of experience      |
+| skillLevel            | string | No       | Current skill level            |
+| whyJoin               | string | No       | Reason for joining             |
+| careerGoal            | string | No       | Career goal                    |
+| message               | string | No       | Additional message             |
+| ImageUrl              | string | No       | Profile image URL              |
+
+**Note:** The `userId` field is automatically set from the logged-in user's token.
+
+**Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body:**
+```json
+{
+  "profileId": "string",
+  "userId": "string",
+  "fullName": "string",
+  "email": "string",
+  "phoneNumber": "string",
+  "dateOfBirth": "1990-01-01",
+  "gender": "string",
+  "city": "string",
+  "state": "string",
+  "pinCode": "string",
+  "courseName": "string",
+  "batchTiming": "string",
+  "priorExperience": "string",
+  "experienceDescription": "string",
+  "skillLevel": "string",
+  "whyJoin": "string",
+  "careerGoal": "string",
+  "message": "string",
+  "ImageUrl": "string"
+}
+```
+
+---
+
+### 2. Get Profile
+
+Retrieve the profile of the logged-in user.
+
+**Endpoint:** `GET /api/profiles`
+
+**Authentication:** Required (JWT Token)
+
+**Response:**
+
+**Status Code:** `200 OK`
+
+**Response Body:**
+```json
+{
+  "profileId": "string",
+  "userId": "string",
+  "fullName": "string",
+  "email": "string",
+  "phoneNumber": "string",
+  "dateOfBirth": "1990-01-01",
+  "gender": "string",
+  "city": "string",
+  "state": "string",
+  "pinCode": "string",
+  "courseName": "string",
+  "batchTiming": "string",
+  "priorExperience": "string",
+  "experienceDescription": "string",
+  "skillLevel": "string",
+  "whyJoin": "string",
+  "careerGoal": "string",
+  "message": "string",
+  "ImageUrl": "string"
+}
+```
+
+**Error Responses:**
+
+| Status Code | Description                                  |
+|-------------|----------------------------------------------|
+| 401         | Unauthorized - Invalid or missing token      |
