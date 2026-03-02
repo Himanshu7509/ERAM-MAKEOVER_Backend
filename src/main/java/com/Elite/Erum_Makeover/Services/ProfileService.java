@@ -33,6 +33,7 @@ public class ProfileService {
         profile.setCity(request.getCity());
         profile.setState(request.getState());
         profile.setPinCode(request.getPinCode());
+        profile.setCourseName(request.getCourseName());
         profile.setBatchTiming(request.getBatchTiming());
         profile.setPriorExperience(request.getPriorExperience());
         profile.setExperienceDescription(request.getExperienceDescription());
@@ -40,6 +41,7 @@ public class ProfileService {
         profile.setWhyJoin(request.getWhyJoin());
         profile.setCareerGoal(request.getCareerGoal());
         profile.setMessage(request.getMessage());
+        // Note: ImageUrl is preserved from previous upload, not overwritten
         return profileRepository.save(profile);
     }
 
@@ -51,12 +53,13 @@ public class ProfileService {
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
 
-    // 🔥 Update Image URL (called from ImageController)
+    // 🔥 Update Image URL (called from ImageController) - Creates profile if not exists
     public void updateProfileImage(String userId, String imageUrl) 
     {
         Profile profile = profileRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElse(new Profile());
 
+        profile.setUserId(userId);
         profile.setImageUrl(imageUrl);
         profileRepository.save(profile);
     }
