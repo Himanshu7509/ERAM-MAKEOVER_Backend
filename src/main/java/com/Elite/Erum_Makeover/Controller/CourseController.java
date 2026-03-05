@@ -36,12 +36,12 @@ public class CourseController {
 //    public Course add(@RequestBody Course c){
 //        return service.add(c);
 //    }
-@PostMapping(value="/add-course", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+@PostMapping(value = "/add-course", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ResponseEntity<Course> addCourse(
         @RequestPart("course") CourseRequestDTO courseDTO,
-        @RequestPart("image") MultipartFile image){
+        @RequestPart("image") MultipartFile image) {
 
-    return ResponseEntity.ok(courseService.addCourse(courseDTO,image));
+    return ResponseEntity.ok(courseService.addCourse(courseDTO, image));
 }
 
     @PutMapping("/admin/{id}")
