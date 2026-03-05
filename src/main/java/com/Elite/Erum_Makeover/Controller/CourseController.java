@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -38,12 +39,14 @@ public class CourseController {
 //    }
 @PostMapping(value = "/add-course", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ResponseEntity<Course> addCourse(
-        @RequestPart("course") CourseRequestDTO courseDTO,
-        @RequestPart("image") MultipartFile image) {
+        @RequestPart("course") String courseJson,
+        @RequestPart("image") MultipartFile image) throws Exception {
+
+    ObjectMapper mapper = new ObjectMapper();
+    CourseRequestDTO courseDTO = mapper.readValue(courseJson, CourseRequestDTO.class);
 
     return ResponseEntity.ok(courseService.addCourse(courseDTO, image));
 }
-
     @PutMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public Course update(@PathVariable String id,@RequestBody Course c)
