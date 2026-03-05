@@ -4,6 +4,7 @@ import com.Elite.Erum_Makeover.DTO.CourseRequestDTO;
 import com.Elite.Erum_Makeover.Model.Course;
 import com.Elite.Erum_Makeover.Services.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class CourseController {
 //    public Course add(@RequestBody Course c){
 //        return service.add(c);
 //    }
-@PostMapping("/add-course")
+@PostMapping(value = "/add-course", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ResponseEntity<Course> addCourse(
         @RequestPart("course") CourseRequestDTO courseDTO,
         @RequestPart("image") MultipartFile image) {
