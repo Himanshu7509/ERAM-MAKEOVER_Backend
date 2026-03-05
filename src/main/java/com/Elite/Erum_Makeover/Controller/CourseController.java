@@ -1,11 +1,13 @@
 package com.Elite.Erum_Makeover.Controller;
 
+import com.Elite.Erum_Makeover.DTO.CourseRequestDTO;
 import com.Elite.Erum_Makeover.Model.Course;
 import com.Elite.Erum_Makeover.Services.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,38 +17,44 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class CourseController {
 
-    private final CourseService service;
+    private final CourseService courseService;
 
     @GetMapping
     public List<Course> all(){
-        return service.getAll();
+        return courseService.getAll();
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getById(@PathVariable String id) {
-
-        Course course = service.getById(id);
-
+        Course course = courseService.getById(id);
         return ResponseEntity.ok(course);
     }
-    // ADMIN CRUD
-    @PostMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public Course add(@RequestBody Course c){
-        return service.add(c);
-    }
+//    // ADMIN CRUD
+//    @PostMapping("/admin")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public Course add(@RequestBody Course c){
+//        return service.add(c);
+//    }
+@PostMapping("/add-course")
+public ResponseEntity<Course> addCourse(
+        @RequestPart("course") CourseRequestDTO courseDTO,
+        @RequestPart("image") MultipartFile image) {
+
+    Course course = courseService.addCourse(courseDTO, image);
+    return ResponseEntity.ok(course);
+}
 
     @PutMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Course update(@PathVariable String id,@RequestBody Course c){
-        return service.update(id,c);
+    public Course update(@PathVariable String id,@RequestBody Course c)
+    {
+        return courseService.update(id,c);
     }
 
     @DeleteMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String delete(@PathVariable String id){
-        service.delete(id);
+     public String delete(@PathVariable String id){
+        courseService.delete(id);
         return "Course deleted successfully";
     }
 }
