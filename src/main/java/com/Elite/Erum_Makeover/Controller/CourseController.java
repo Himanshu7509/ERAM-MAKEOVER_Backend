@@ -88,7 +88,7 @@ public class CourseController {
         Course updatedCourse = service.update(id, c);
 
         return ResponseEntity.ok(convertToDTO(updatedCourse));
-    }i
+    }
 
     // Delete Course
     @DeleteMapping("/admin/{id}")
