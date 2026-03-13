@@ -1,17 +1,18 @@
 package com.Elite.Erum_Makeover.Controller;
 
-import com.Elite.Erum_Makeover.DTO.CourseRequestDTO;
+import com.Elite.Erum_Makeover.DTO.CourseResponseDTO;
 import com.Elite.Erum_Makeover.Model.Course;
+import com.Elite.Erum_Makeover.Model.Image;
 import com.Elite.Erum_Makeover.Services.CourseService;
+import com.Elite.Erum_Makeover.Services.S3Service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/courses")
@@ -19,45 +20,83 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class CourseController {
 
-    private final CourseService courseService;
+    private final CourseService service;
+    private final S3Service s3Service;
 
+    // Get All Courses
     @GetMapping
-    public List<Course> all(){
-        return courseService.getAll();
+    public List<CourseResponseDTO> all() {
+        List<Course> courses = service.getAll();
+        return courses.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
+    // Get Course By ID
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getById(@PathVariable String id) {
-        Course course = courseService.getById(id);
-        return ResponseEntity.ok(course);
+    public ResponseEntity<CourseResponseDTO> getById(@PathVariable String id) {
+        Course course = service.getById(id);
+        return ResponseEntity.ok(convertToDTO(course));
     }
-//    // ADMIN CRUD
-//    @PostMapping("/admin")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public Course add(@RequestBody Course c){
-//        return service.add(c);
-//    }
-@PostMapping(value = "/add-course", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<Course> addCourse(
-        @RequestPart("course") String courseJson,
-        @RequestPart("image") MultipartFile image) throws Exception {
 
-    ObjectMapper mapper = new ObjectMapper();
-    CourseRequestDTO courseDTO = mapper.readValue(courseJson, CourseRequestDTO.class);
+    // Convert Entity -> DTO
+    private CourseResponseDTO convertToDTO(Course course) {
 
-    return ResponseEntity.ok(courseService.addCourse(courseDTO, image));
-}
+        CourseResponseDTO dto = new CourseResponseDTO();
+
+        dto.setCourseId(course.getCourseId());
+        dto.setTitle(course.getTitle());
+        dto.setDescription(course.getDescription());
+        dto.setPrice(course.getPrice());
+        dto.setDuration(course.getDuration());
+        dto.setLevel(course.getLevel());
+        dto.setWhatYouWillLearn(course.getWhatYouWillLearn());
+
+        // assuming Course model has imageUrl stored
+        dto.setImageUrl(course.getImageUrl());
+
+        return dto;
+    }
+
+    // ADMIN CREATE COURSE
+    @PostMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CourseResponseDTO> add(@RequestBody Course c) {
+
+        Course savedCourse = service.add(c);
+
+        return ResponseEntity.ok(convertToDTO(savedCourse));
+    }
+
+    // Upload Course Image
+    @PostMapping("/upload-image")
+    public ResponseEntity<String> uploadImage(
+            @RequestParam("file") MultipartFile file) {
+
+        Image image = s3Service.uploadFile(file, "courseImages");
+
+        return ResponseEntity.ok(image.getImageUrl());
+    }
+
+    // Update Course
     @PutMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Course update(@PathVariable String id,@RequestBody Course c)
-    {
-        return courseService.update(id,c);
-    }
+    public ResponseEntity<CourseResponseDTO> update(
+            @PathVariable String id,
+            @RequestBody Course c) {
 
+        Course updatedCourse = service.update(id, c);
+
+        return ResponseEntity.ok(convertToDTO(updatedCourse));
+    }i
+
+    // Delete Course
     @DeleteMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-     public String delete(@PathVariable String id){
-        courseService.delete(id);
+    public String delete(@PathVariable String id) {
+
+        service.delete(id);
+
         return "Course deleted successfully";
     }
 }

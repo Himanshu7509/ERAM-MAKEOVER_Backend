@@ -1,11 +1,8 @@
 package com.Elite.Erum_Makeover.Controller;
-
-
 import com.Elite.Erum_Makeover.Model.Enrollment;
 import com.Elite.Erum_Makeover.SecurityConfig.JwtUtil;
 import com.Elite.Erum_Makeover.Services.EnrollmentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
