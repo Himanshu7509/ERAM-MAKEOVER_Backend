@@ -25,7 +25,7 @@ public class ProfileController {
             @RequestBody Profile request
     )
     {
-        String token = authHeader.substring(7);
+        String token = authHeader.substring( 7);
         String userId = JwtUtil.extractUserId(token);
         Profile savedProfile =
                 profileService.saveOrUpdateProfile(userId, request);
