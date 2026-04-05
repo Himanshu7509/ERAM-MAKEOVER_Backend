@@ -14,10 +14,6 @@ public class ErumMakeoverApplication {
 		SpringApplication.run(ErumMakeoverApplication.class, args);
 
 	}
-	@PostConstruct
-	public void debug() {
-		System.out.println("URL: " + System.getenv("REDIS_URL"));
-	}
 }
 
 

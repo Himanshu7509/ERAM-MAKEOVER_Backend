@@ -8,24 +8,26 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 
 @Configuration
 public class RedisConfig {
-
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
 
         String host = System.getenv("REDISHOST");
-        int port = Integer.parseInt(System.getenv("REDISPORT"));
+        String portStr = System.getenv("REDISPORT");
         String password = System.getenv("REDISPASSWORD");
 
-        System.out.println("Connecting to Redis: " + host + ":" + port);
+        System.out.println("HOST: " + host);
+        System.out.println("PORT: " + portStr);
+        System.out.println("PASS: " + password);
+        int port = Integer.parseInt(portStr);
 
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(host);
         config.setPort(port);
         config.setPassword(password);
 
-        // 🔥 IMPORTANT → enable SSL (Railway uses it internally sometimes)
+        // 🔥 MOST IMPORTANT LINE (THIS FIXES YOUR ERROR)
         LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
-                .useSsl()
+                .useSsl()   // ✅ MUST ENABLE
                 .build();
 
         return new LettuceConnectionFactory(config, clientConfig);
