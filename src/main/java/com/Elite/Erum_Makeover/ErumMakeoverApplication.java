@@ -15,9 +15,8 @@ public class ErumMakeoverApplication {
 
 	}
 	@PostConstruct
-	public void checkRedisEnv() {
-		System.out.println("HOST: " + System.getenv("REDISHOST"));
-		System.out.println("PORT: " + System.getenv("REDISPORT"));
+	public void debug() {
+		System.out.println("URL: " + System.getenv("REDIS_URL"));
 	}
 }
 
