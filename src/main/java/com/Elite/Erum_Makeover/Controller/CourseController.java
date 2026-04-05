@@ -6,6 +6,7 @@ import com.Elite.Erum_Makeover.Model.Image;
 import com.Elite.Erum_Makeover.Services.CourseService;
 import com.Elite.Erum_Makeover.Services.S3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,10 @@ public class CourseController {
 
     // Get All Courses
     @GetMapping
+    @Cacheable(value = "courses")
     public List<CourseResponseDTO> all() {
+        System.out.println("Fetching from DB...");
+
         List<Course> courses = service.getAll();
         return courses.stream()
                 .map(this::convertToDTO)
