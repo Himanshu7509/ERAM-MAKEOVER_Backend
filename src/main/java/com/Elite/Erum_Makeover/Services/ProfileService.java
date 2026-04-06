@@ -23,8 +23,7 @@ public class ProfileService {
     {
 
         Profile profile = profileRepository.findByUserId(userId)
-            .orElse(new Profile());
-
+        .orElse(new Profile());
         profile.setUserId(userId);
         profile.setFullName(request.getFullName());
         profile.setEmail(request.getEmail());
@@ -57,8 +56,7 @@ public class ProfileService {
     public void updateProfileImage(String userId, String imageUrl) 
     {
         Profile profile = profileRepository.findByUserId(userId)
-                .orElse(new Profile());
-
+        .orElse(new Profile());
         profile.setUserId(userId);
         profile.setImageUrl(imageUrl);
         profileRepository.save(profile);
@@ -67,13 +65,13 @@ public class ProfileService {
     // ✅ Get All Profiles
     @Cacheable("profiles")
     public List<Profile> getAllProfiles() {
-        return profileRepository.findAll();
+    return profileRepository.findAll();
     }
 
     // ✅ Get Profile By profileId
     public Profile getProfileById(String profileId) 
     {
         return profileRepository.findById(profileId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+        .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
 }
