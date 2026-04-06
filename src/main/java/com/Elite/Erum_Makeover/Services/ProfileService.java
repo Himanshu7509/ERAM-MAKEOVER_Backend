@@ -46,9 +46,9 @@ public class ProfileService {
     }
 
     // 🔥 Get Profile
-    @Cacheable(value = "profile", key = "#userId")
-    public Profile getProfileByUserId(String userId) {
-        System.out.println("🔥 Fetching profile from DB...");
+    public Profile getProfileByUserId(String userId)
+    {
+
         return profileRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
@@ -65,8 +65,8 @@ public class ProfileService {
     }
 
     // ✅ Get All Profiles
-    public List<Profile> getAllProfiles() 
-    {
+    @Cacheable("profiles")
+    public List<Profile> getAllProfiles() {
         return profileRepository.findAll();
     }
 
