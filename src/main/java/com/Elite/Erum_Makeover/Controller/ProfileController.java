@@ -4,6 +4,7 @@ import com.Elite.Erum_Makeover.Repository.ProfileRepository;
 import com.Elite.Erum_Makeover.SecurityConfig.JwtUtil;
 import com.Elite.Erum_Makeover.Services.ProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,11 +34,14 @@ public class ProfileController {
     }
 
     // 🔥 Get Profile
+
     @GetMapping
+    @Cacheable(value = "profiles")
     public ResponseEntity<?> getProfile(
             @RequestHeader("Authorization") String authHeader
     )
     {
+        System.out.println("Fetching from DB...");
         String token = authHeader.substring(7);
         String userId = JwtUtil.extractUserId(token);
         Profile profile =
