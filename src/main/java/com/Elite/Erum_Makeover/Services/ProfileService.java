@@ -5,6 +5,7 @@ import com.Elite.Erum_Makeover.Model.Profile;
 import com.Elite.Erum_Makeover.Repository.ImageRepository;
 import com.Elite.Erum_Makeover.Repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -45,9 +46,9 @@ public class ProfileService {
     }
 
     // 🔥 Get Profile
-    public Profile getProfileByUserId(String userId) 
-    {
-
+    @Cacheable(value = "profile", key = "#userId")
+    public Profile getProfileByUserId(String userId) {
+        System.out.println("🔥 Fetching profile from DB...");
         return profileRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }

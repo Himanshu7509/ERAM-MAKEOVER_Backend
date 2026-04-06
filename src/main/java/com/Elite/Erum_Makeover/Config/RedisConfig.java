@@ -1,35 +1,31 @@
 //package com.Elite.Erum_Makeover.Config;
 //
+//import org.springframework.cache.annotation.EnableCaching;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
-//import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-//import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
-//import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+//import org.springframework.data.redis.cache.RedisCacheConfiguration;
+//import org.springframework.data.redis.cache.RedisCacheManager;
+//import org.springframework.data.redis.connection.RedisConnectionFactory;
+//import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+//import org.springframework.data.redis.serializer.RedisSerializationContext;
 //
 //@Configuration
+//@EnableCaching
 //public class RedisConfig {
+//
 //    @Bean
-//    public LettuceConnectionFactory redisConnectionFactory() {
+//    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
 //
-//        String host = System.getenv("REDISHOST");
-//        String portStr = System.getenv("REDISPORT");
-//        String password = System.getenv("REDISPASSWORD");
+//        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+//                .serializeValuesWith(
+//                        RedisSerializationContext.SerializationPair.fromSerializer(
+//                                new GenericJackson2JsonRedisSerializerBuilder<>(Object.class)
+//                        )
+//                );
 //
-//        System.out.println("HOST: " + host);
-//        System.out.println("PORT: " + portStr);
-//        System.out.println("PASS: " + password);
-//        int port = Integer.parseInt(portStr);
-//
-//        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-//        config.setHostName(host);
-//        config.setPort(port);
-//        config.setPassword(password);
-//
-//        // 🔥 MOST IMPORTANT LINE (THIS FIXES YOUR ERROR)
-//        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
-//                .useSsl()   // ✅ MUST ENABLE
+//        return RedisCacheManager.builder(connectionFactory)
+//                .cacheDefaults(config)
 //                .build();
-//
-//        return new LettuceConnectionFactory(config, clientConfig);
 //    }
+//}
 //}
